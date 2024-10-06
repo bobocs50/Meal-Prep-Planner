@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Select
+{% endblock %}
+
+{% block main %}
+
+<h1 class="mb-3"> Select meals ✅</h1>
+<form method="POST">
+    <table class="table table-bordered table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th>Meals</th>
+                <th>Cook</th>
+                <th>Serving</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for meal in meals %}
+            <tr>
+                <td>{{meal}}</td>
+                <td>
+                    <input type="checkbox" name="selected_meals" value="{{ meal }}">
+                </td>
+                <td style="width: 80px;">
+                    <input type="number" class="form-control form-control-sm" name="selected_servings" value="{{ meal }}">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}

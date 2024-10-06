@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+<!-- Adding meal-->
+<h2 class="mb-3"> Add a New Meal ➕</h2>
+<form class="mb-3" method="POST">
+    <input type="text" id="#" name="meal_name" class="form-control mb-3" placeholder="Meal Name" autocomplete="off" required>
+    <input type="number" id="#" name="servings" class="form-control mb-3" min="1" placeholder="Number of Servings" autocomplete="off" required>
+
+<!-- Adding ingredients-->
+<h2 class="mb-1"> Add ingredients </h2>
+
+    <input type="text" id="ingredient" name="ingredient" class="form-control mb-3" autocomplete="off" placeholder="Ingredient" >
+    <input type="number" id="quantity" name="quantity" class="form-control mb-3" min="1" autocomplete="off" placeholder="Quantity" >
+    <select id="unit" name="unit" class="form-select mb-3" >
+        <option disabled selected>Select unit</option>
+        <option>g</option>
+        <option>ml</option>
+        <option>tsp</option>
+        <option>tbsp</option>
+        <option>item</option>
+    </select>
+    <button type="button" id="add-ingredient" class="btn btn-secondary mb-3">Add ingredient</button>
+
+    <h2 class="mb-4"> Ingredients List</h2>
+    <ul class="mb-4 list-group" id="list"></ul>
+
+    <!-- Hidden inputs will be added here -->
+    <div id="hidden-ingredients"></div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<!-- Java Script-->
+
+<script>
+    document.getElementById("add-ingredient").addEventListener("click",function(){
+        //get values from input
+        const ingredient = document.getElementById("ingredient").value;
+        const quantity = document.getElementById("quantity").value;
+        const unit = document.getElementById("unit").value;
+
+        if (ingredient && quantity && unit) {
+            //find ul
+            const ingredientList = document.getElementById("list");
+            //create a new list
+            const listItem = document.createElement("li");
+            //add text
+            listItem.textContent = `${quantity}x ${unit} of ${ingredient}`;
+            //append list to ul
+            ingredientList.appendChild(listItem)
+
+            // Select the hidden ingredients div
+            const hiddenIngredients = document.getElementById("hidden-ingredients");
+
+            // Hidden input for ingredient
+            const ingredientInput = document.createElement("input");
+            ingredientInput.type = "hidden";
+            ingredientInput.name = "ingredients[]"; // For ingredients
+            ingredientInput.value = ingredient;
+            hiddenIngredients.appendChild(ingredientInput);
+
+            // Hidden input for quantity
+            const quantityInput = document.createElement("input");
+            quantityInput.type = "hidden";
+            quantityInput.name = "quantities[]"; // For quantities
+            quantityInput.value = quantity;
+            hiddenIngredients.appendChild(quantityInput);
+
+            // Hidden input for unit
+            const unitInput = document.createElement("input");
+            unitInput.type = "hidden";
+            unitInput.name = "units[]"; // For units
+            unitInput.value = unit;
+            hiddenIngredients.appendChild(unitInput);
+
+
+
+             //clear input after adding
+            document.getElementById("ingredient").value = "";
+            document.getElementById("quantity").value = "";
+            document.getElementById("unit").selectedIndex = 0;
+
+
+        }
+        else{
+            alert("Please fill in all fields");
+        }
+    });
+</script>
+{% endblock %}
+
